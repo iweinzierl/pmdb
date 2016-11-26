@@ -1,0 +1,13 @@
+project:
+  id: pmdb-cloud
+
+---
+
+spring:
+  profiles: production
+
+---
+
+spring:
+  profiles: development
+
