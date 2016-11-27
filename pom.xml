@@ -108,6 +108,9 @@
                             <imageName>${docker.image.prefix}</imageName>
                             <baseImage>oracle/openjdk</baseImage>
                             <cmd>java -jar -Dspring.profiles.active=production /app/${project.build.finalName}.jar</cmd>
+                            <exposes>
+                                <expose>8080</expose>
+                            </exposes>
                             <resources>
                                 <resource>
                                     <targetPath>/app</targetPath>

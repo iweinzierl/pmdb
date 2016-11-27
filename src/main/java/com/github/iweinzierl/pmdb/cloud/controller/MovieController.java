@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping("/movie")
+@RequestMapping("/movies")
 public class MovieController {
 
     private Logger LOGGER = LoggerFactory.getLogger(MovieController.class);
