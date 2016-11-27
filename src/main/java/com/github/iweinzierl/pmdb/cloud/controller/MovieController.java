@@ -1,38 +1,74 @@
 package com.github.iweinzierl.pmdb.cloud.controller;
 
 import com.github.iweinzierl.pmdb.cloud.domain.Movie;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.github.iweinzierl.pmdb.cloud.exception.MissingPropertyException;
+import com.github.iweinzierl.pmdb.cloud.exception.MissingPropertyInfo;
+import com.github.iweinzierl.pmdb.cloud.exception.MovieNotFoundException;
+import com.github.iweinzierl.pmdb.cloud.persistence.MoviePersistenceService;
+import com.google.common.base.Strings;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping("/movies")
 public class MovieController {
 
-    private Logger LOGGER = LoggerFactory.getLogger(MovieController.class);
+    private final MoviePersistenceService moviePersistenceService;
 
-    @RequestMapping(consumes = "application/json", produces = "application/json", method = RequestMethod.POST, path = "/")
-    public ResponseEntity addMovie(@RequestBody Movie movie) {
-        LOGGER.info("Received movie: {}", movie.toString());
-        LOGGER.warn("Not yet implemented");
-
-        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(movie);
+    @Autowired
+    public MovieController(MoviePersistenceService moviePersistenceService) {
+        this.moviePersistenceService = moviePersistenceService;
     }
 
-    @RequestMapping(produces = "application/json", method = RequestMethod.GET, path = "/")
+    @RequestMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
+    public Movie addMovie(@RequestBody Movie movie) {
+        if (Strings.isNullOrEmpty(movie.getTitle())) {
+            throw new MissingPropertyException("title", movie);
+        }
+
+        return moviePersistenceService.save(movie);
+    }
+
+    @RequestMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
     public List<Movie> listMovies() {
-        LOGGER.warn("Not yet implemented");
-        return Collections.EMPTY_LIST;
+        return StreamSupport
+                .stream(moviePersistenceService.findAll().spliterator(), false)
+                .collect(Collectors.toList());
     }
 
-    @RequestMapping(produces = "application/json", method = RequestMethod.GET, path = "/{id}")
-    public Movie getMovie(@PathVariable("id") String id) {
-        LOGGER.warn("Not yet implemented");
-        return null;
+    @RequestMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET, path = "/{id}")
+    public Movie getMovie(@PathVariable("id") Long id) {
+        Movie movie = moviePersistenceService.findOne(id);
+
+        if (movie == null) {
+            throw new MovieNotFoundException(id);
+        }
+
+        return movie;
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
+    public void deleteMovie(@PathVariable("id") Long id) {
+        Movie movie = moviePersistenceService.findOne(id);
+
+        if (movie == null) {
+            throw new MovieNotFoundException(id);
+        } else {
+            moviePersistenceService.delete(id);
+        }
+    }
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MissingPropertyException.class)
+    @ResponseBody
+    private MissingPropertyInfo handleMissingPropertyException(HttpServletRequest req, MissingPropertyException ex) {
+        return new MissingPropertyInfo(ex.getMessage(), ex.getProperty(), ex.getObject());
     }
 }
