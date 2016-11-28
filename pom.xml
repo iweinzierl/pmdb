@@ -109,52 +109,13 @@
                 <configuration>
                     <serverId>docker-hub</serverId>
                     <registryUrl>hub.docker.com</registryUrl>
+                    <exposes>
+                        <expose>8080</expose>
+                    </exposes>
+                    <cmd>java -jar -Dspring.profiles.active=production /app/${project.build.finalName}.jar</cmd>
+                    <imageName>${docker.image.prefix}</imageName>
+                    <baseImage>oracle/openjdk</baseImage>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>build-image</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                        <configuration>
-                            <imageName>${docker.image.prefix}</imageName>
-                            <baseImage>oracle/openjdk</baseImage>
-                            <cmd>java -jar -Dspring.profiles.active=production /app/${project.build.finalName}.jar</cmd>
-                            <exposes>
-                                <expose>8080</expose>
-                            </exposes>
-                            <resources>
-                                <resource>
-                                    <targetPath>/app</targetPath>
-                                    <directory>${project.build.directory}</directory>
-                                    <include>${project.build.finalName}.jar</include>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>tag-image</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>tag</goal>
-                        </goals>
-                        <configuration>
-                            <image>${docker.image.prefix}</image>
-                            <newName>${docker.image.prefix}:${project.version}</newName>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>push-image</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>push</goal>
-                        </goals>
-                        <configuration>
-                            <imageName>${docker.image.prefix}:${project.version}</imageName>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
