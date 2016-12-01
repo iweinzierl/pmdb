@@ -1,0 +1,11 @@
+[Unit]
+Description=Private Movie DataBase
+After=syslog.target
+
+[Service]
+User=jenkins
+ExecStart=/opt/pmdb/pmdb.jar
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multiuser.target
