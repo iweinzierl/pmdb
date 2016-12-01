@@ -94,8 +94,8 @@ public class MovieControllerTest {
 
     @Test
     public void ensureMovieListReturnedProperly() throws Exception {
-        Movie out1 = new Movie(1, "Movie 1");
-        Movie out2 = new Movie(2, "Movie 2");
+        Movie out1 = new Movie(1, "Movie 1", null);
+        Movie out2 = new Movie(2, "Movie 2", null);
 
         given(moviePersistenceService.findAll()).willReturn(Lists.newArrayList(out1, out2));
 
@@ -114,7 +114,7 @@ public class MovieControllerTest {
 
     @Test
     public void ensureMovieByIdReturnedProperly() throws Exception {
-        Movie out = new Movie(1, "Movie 1");
+        Movie out = new Movie(1, "Movie 1", null);
 
         given(moviePersistenceService.findOne(1L)).willReturn(out);
 
@@ -133,7 +133,7 @@ public class MovieControllerTest {
 
     @Test
     public void ensureDeleteMovieByIdHandledProperly() throws Exception {
-        Movie out = new Movie(1, "Movie 1");
+        Movie out = new Movie(1, "Movie 1", null);
 
         given(moviePersistenceService.findOne(1L)).willReturn(out);
 
