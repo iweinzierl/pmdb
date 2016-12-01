@@ -1,0 +1,1 @@
+curl http://iweinzierl.de:8081/git/notifyCommit?url=https://github.com/iweinzierl/pmdb
