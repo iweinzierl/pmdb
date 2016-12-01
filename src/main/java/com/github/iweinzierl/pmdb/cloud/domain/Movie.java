@@ -24,4 +24,6 @@ public class Movie implements Serializable {
 
     @OneToMany(targetEntity = Genre.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Genre> genre;
+
+    private int length;
 }
