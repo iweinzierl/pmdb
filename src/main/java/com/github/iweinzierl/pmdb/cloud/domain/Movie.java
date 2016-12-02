@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 @NoArgsConstructor
@@ -27,8 +27,8 @@ public class Movie implements Serializable {
 
     private String title;
 
-    @OneToMany(targetEntity = Genre.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Genre> genre;
+    @Basic
+    private ArrayList<String> genres;
 
     private int length;
 
