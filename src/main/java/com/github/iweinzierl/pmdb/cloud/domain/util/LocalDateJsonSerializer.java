@@ -1,0 +1,22 @@
+package com.github.iweinzierl.pmdb.cloud.domain.util;
+
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+public class LocalDateJsonSerializer extends JsonSerializer<LocalDate> {
+
+    @Override
+    public void serialize(LocalDate value, JsonGenerator gen, SerializerProvider serializers) throws IOException, JsonProcessingException {
+        if (value == null) {
+            gen.writeString("");
+        } else {
+            gen.writeString(value.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        }
+    }
+}
