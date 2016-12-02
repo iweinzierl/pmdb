@@ -6,6 +6,14 @@ project:
 spring:
   profiles: production
 
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pmdb_db
+    username: pmdb_service
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
 ---
 
 spring:
