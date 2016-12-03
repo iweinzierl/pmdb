@@ -8,7 +8,7 @@
     </root>
 
     <appender name="REQUEST_LOG" class="ch.qos.logback.core.FileAppender">
-        <file>request.log</file>
+        <file>/tmp/http.log</file>
         <append>true</append>
         <encoder>
             <pattern>%msg %n</pattern>
@@ -16,7 +16,8 @@
     </appender>
 
     <logger name="org.springframework" level="INFO"/>
-    <logger name="com.github.iweinzierl.workload.cloud.logging.request.RequestLoggingAspect" level="INFO" additivity="false">
+    <logger name="org.hibernate" level="INFO"/>
+    <logger name="com.github.iweinzierl.springbootlogging.AOPLogger" level="INFO" additivity="false">
         <appender-ref ref="REQUEST_LOG"/>
     </logger>
 </configuration>

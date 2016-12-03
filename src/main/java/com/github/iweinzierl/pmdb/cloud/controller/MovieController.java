@@ -5,6 +5,8 @@ import com.github.iweinzierl.pmdb.cloud.exception.MissingPropertyException;
 import com.github.iweinzierl.pmdb.cloud.exception.MissingPropertyInfo;
 import com.github.iweinzierl.pmdb.cloud.exception.MovieNotFoundException;
 import com.github.iweinzierl.pmdb.cloud.persistence.MoviePersistenceService;
+import com.github.iweinzierl.springbootlogging.annotation.HttpLogging;
+import com.github.iweinzierl.springbootlogging.annotation.LoggingOption;
 import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,7 @@ public class MovieController {
         this.moviePersistenceService = moviePersistenceService;
     }
 
+    @HttpLogging(options = {LoggingOption.REQUEST})
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     public Movie addMovie(@RequestBody Movie movie) {
         if (Strings.isNullOrEmpty(movie.getTitle())) {
@@ -36,6 +39,7 @@ public class MovieController {
         return moviePersistenceService.save(movie);
     }
 
+    @HttpLogging(options = {LoggingOption.REQUEST})
     @RequestMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
     public List<Movie> listMovies() {
         return StreamSupport
@@ -43,6 +47,7 @@ public class MovieController {
                 .collect(Collectors.toList());
     }
 
+    @HttpLogging(options = {LoggingOption.REQUEST})
     @RequestMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET, path = "/{id}")
     public Movie getMovie(@PathVariable("id") Long id) {
         Movie movie = moviePersistenceService.findOne(id);
@@ -54,6 +59,7 @@ public class MovieController {
         return movie;
     }
 
+    @HttpLogging(options = {LoggingOption.REQUEST})
     @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
     public void deleteMovie(@PathVariable("id") Long id) {
         Movie movie = moviePersistenceService.findOne(id);
