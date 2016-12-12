@@ -29,6 +29,16 @@
         <docker.registry>iweinzierl/dev</docker.registry>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>iweinzierl</id>
+            <name>Maven iweinzierl.de</name>
+            <releases>http://maven.iweinzierl.de/repository/maven-releases/</releases>
+            <snapshots>http://maven.iweinzierl.de/repository/maven-snapshots/</snapshots>
+            <url>http://maven.iweinzierl.de</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <!-- spring dependencies -->
         <dependency>
@@ -58,6 +68,16 @@
         </dependency>
 
         <!-- utility dependencies -->
+        <dependency>
+            <groupId>com.google.api-client</groupId>
+            <artifactId>google-api-client</artifactId>
+            <version>1.22.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-plus</artifactId>
+            <version>v1-rev477-1.22.0</version>
+        </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
