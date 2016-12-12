@@ -33,8 +33,6 @@
         <repository>
             <id>iweinzierl</id>
             <name>Maven iweinzierl.de</name>
-            <releases>http://maven.iweinzierl.de/repository/maven-releases/</releases>
-            <snapshots>http://maven.iweinzierl.de/repository/maven-snapshots/</snapshots>
             <url>http://maven.iweinzierl.de</url>
         </repository>
     </repositories>
