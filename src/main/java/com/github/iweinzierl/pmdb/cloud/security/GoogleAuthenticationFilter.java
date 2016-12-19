@@ -24,6 +24,11 @@ public class GoogleAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        if (request.getMethod().equals("OPTIONS")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         final String accessToken = request.getHeader("X-Authorization");
 
         if (Strings.isNullOrEmpty(accessToken)) {
@@ -59,6 +64,7 @@ public class GoogleAuthenticationFilter extends OncePerRequestFilter {
                     .email(me.getEmails().get(0).getValue())
                     .name(me.getDisplayName())
                     .id(me.getId())
+                    .profileImage(me.getImage().getUrl())
                     .build();
         } catch (GoogleJsonResponseException e) {
             if (e.getDetails().getCode() == 401) {

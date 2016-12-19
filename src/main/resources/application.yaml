@@ -1,10 +1,20 @@
 project:
   id: pmdb-cloud
 
+server:
+  port: 9000
+
+spring:
+  mvc:
+    dispatch-options-request:true
+
 ---
 
 spring:
   profiles: production
+
+server:
+  port: 8080
 
   datasource:
     url: jdbc:postgresql://localhost:5432/pmdb_db
@@ -18,7 +28,4 @@ spring:
 
 spring:
   profiles: development
-
-server:
-  port: 9000
 

@@ -14,6 +14,7 @@ public class GoogleUserDetails implements UserDetails {
     private String id;
     private String name;
     private String email;
+    private String profileImage;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
