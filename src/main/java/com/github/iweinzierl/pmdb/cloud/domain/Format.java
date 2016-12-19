@@ -4,5 +4,7 @@ public enum Format {
 
     VHS,
     DVD,
-    BLURAY
+    BLURAY,
+    AMAZON_VIDEO,
+    GOOGLE_MOVIES
 }
