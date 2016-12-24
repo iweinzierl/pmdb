@@ -19,10 +19,12 @@ server:
   datasource:
     url: jdbc:postgresql://localhost:5432/pmdb_db
     username: pmdb_service
+    password: TO_BE_DEFINED
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
+      dialect: org.hibernate.dialect.PostgreSQLDialect
 
 ---
 
