@@ -32,7 +32,9 @@ public class GoogleAuthenticationFilter extends OncePerRequestFilter {
         final String accessToken = request.getHeader("X-Authorization");
 
         if (Strings.isNullOrEmpty(accessToken)) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setHeader("Content-Type", "application/json;charset=UTF-8");
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
 
@@ -43,7 +45,9 @@ public class GoogleAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (UnauthorizedException e) {
             LOGGER.warn("Unauthorized access", e);
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setHeader("Content-Type", "application/json;charset=UTF-8");
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
         } catch (Exception e) {
             LOGGER.error("Authentication failed", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
